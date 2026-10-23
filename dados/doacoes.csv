@@ -1,3 +1,2 @@
-﻿valor;forma_pagamento;data_hora
-2.00;PIX;2026-10-01T10:30
-;;
+﻿valor;forma_pagamento;data_hora;observacao
+2.00;PIX;2026-10-01T10:30;Exemplo
