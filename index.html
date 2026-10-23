@@ -105,10 +105,6 @@
             <button id="btnFetchCSV" onclick="PortalApp.loadCSVData()" class="hover:text-gold-400 text-xs flex items-center gap-1 transition-colors">
                 <i class="fa-solid fa-rotate"></i> Atualizar Dados CSV
             </button>
-            <span class="text-slate-600">|</span>
-            <button id="btnToggleAdmin" onclick="PortalApp.toggleAdminMode()" class="hover:text-gold-400 text-xs flex items-center gap-1 transition-colors">
-                <i class="fa-solid fa-sliders"></i> Modo Edição Local
-            </button>
         </div>
     </div>
 
@@ -131,7 +127,8 @@
                     </p>
                 </div>
                 
-                <!-- Quick Summary Chip -->
+                <!-- 
+                Quick Summary Chip (Ocultado para uso futuro)
                 <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex flex-col justify-center min-w-[220px]">
                     <span class="text-xs uppercase tracking-wider text-emerald-200 font-semibold">Meta da Campanha</span>
                     <span id="headerGoalValue" class="text-2xl font-black text-white mt-1">R$ 0,00</span>
@@ -140,46 +137,13 @@
                         <span id="headerGoalPercent" class="font-bold text-gold-400">0,00%</span>
                     </div>
                 </div>
+                -->
             </div>
         </div>
     </header>
 
     <!-- CONTENT CONTAINER -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-
-        <!-- ADMIN CONTROLS BANNER -->
-        <div id="adminPanel" class="hidden bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-4">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200 pb-3">
-                <div class="flex items-center gap-2 text-amber-900 font-bold text-lg">
-                    <i class="fa-solid fa-user-gear text-amber-600"></i> Painel do Administrador Local (Modo Edição)
-                </div>
-                <span class="text-xs text-amber-800 bg-amber-200 px-2.5 py-1 rounded-full font-medium">
-                    Alterações salvas no navegador (localStorage)
-                </span>
-            </div>
-
-            <!-- Admin Action Tools -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                <button onclick="PortalApp.openDonationModal()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
-                    <i class="fa-solid fa-plus-circle"></i> + Doação
-                </button>
-                <button onclick="PortalApp.openExpenseModal()" class="bg-slate-700 hover:bg-slate-800 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
-                    <i class="fa-solid fa-minus-circle"></i> + Despesa
-                </button>
-                <button onclick="PortalApp.openSettingsModal()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
-                    <i class="fa-solid fa-gear"></i> Meta & Configurações
-                </button>
-                <div class="flex items-center gap-2">
-                    <button onclick="PortalApp.exportJSON()" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-download"></i> JSON
-                    </button>
-                    <label class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-upload"></i> Restaurar
-                        <input type="file" id="jsonInput" accept=".json" onchange="PortalApp.importJSON(event)" class="hidden">
-                    </label>
-                </div>
-            </div>
-        </div>
 
         <!-- NOTIFICATION ALERT BOX -->
         <div id="alertBox" class="hidden rounded-2xl p-4 border flex items-start gap-3 shadow-sm transition-all duration-300">
@@ -193,7 +157,8 @@
             </button>
         </div>
 
-        <!-- 1. CAMPAIGN PROGRESS & GOAL BAR -->
+        <!-- 
+        1. CAMPAIGN PROGRESS & GOAL BAR (Ocultado para uso futuro)
         <section class="glass-card rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -218,9 +183,10 @@
                 </div>
             </div>
         </section>
+        -->
 
         <!-- 2. FINANCIAL INDICATOR CARDS (KPIs) -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             
             <!-- KPI 1: Total Arrecadado -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -264,7 +230,8 @@
                 </div>
             </div>
 
-            <!-- KPI 4: % da Meta -->
+            <!-- 
+            KPI 4: % da Meta (Ocultado para uso futuro)
             <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div class="flex items-center justify-between text-slate-500 mb-2">
                     <span class="text-xs font-bold uppercase tracking-wider">% da Meta</span>
@@ -277,6 +244,7 @@
                     <span id="kpiGoalStatus" class="text-xs text-amber-600 font-medium">Em andamento</span>
                 </div>
             </div>
+            -->
 
             <!-- KPI 5: Despesas Pendentes -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -383,7 +351,7 @@
                             <th class="py-3.5 px-6">Forma de Pagamento</th>
                             <th class="py-3.5 px-6">Valor do Aporte</th>
                             <th class="py-3.5 px-6">% sobre Arrecadação</th>
-                            <th class="py-3.5 px-6 text-right edit-col hidden">Ações Admin</th>
+                            <th class="py-3.5 px-6">Observações</th>
                         </tr>
                     </thead>
                     <tbody id="donationsTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
@@ -451,7 +419,6 @@
                             <th class="py-3.5 px-6">Status</th>
                             <th class="py-3.5 px-6">Valor em Reais</th>
                             <th class="py-3.5 px-6">Comprovante/Ref.</th>
-                            <th class="py-3.5 px-6 text-right edit-col hidden">Ações Admin</th>
                         </tr>
                     </thead>
                     <tbody id="expensesTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
@@ -464,6 +431,42 @@
                     <span>Pendentes: <strong id="expensesPendingFooter" class="text-amber-600">R$ 0,00</strong></span>
                     <span>Total Pago: <strong id="expensesTotalFooter" class="text-lg font-extrabold text-rose-700">R$ 0,00</strong></span>
                 </div>
+            </div>
+        </section>
+
+        <!-- 6. PHASES OF WORK TABLE SECTION -->
+        <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                        <h3 class="text-xl font-bold text-slate-900">Fases do Trabalho / Etapas da Obra</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Acompanhamento do cronograma e evolução física dos serviços</p>
+                </div>
+
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="phaseSearch" placeholder="Buscar atividade..." oninput="PortalApp.renderPhases()" 
+                           class="pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 w-48 sm:w-64">
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                            <th class="py-3.5 px-6 w-36">Data</th>
+                            <th class="py-3.5 px-6">Atividade</th>
+                            <th class="py-3.5 px-6">Observações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="phasesTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+                </table>
+            </div>
+
+            <div class="p-4 bg-slate-50/80 border-t border-slate-100 flex justify-between items-center text-xs font-semibold text-slate-700 px-6">
+                <span id="phasesCountFooter">Exibindo 0 etapas</span>
             </div>
         </section>
 
@@ -488,129 +491,6 @@
         </div>
     </footer>
 
-    <!-- MODALS SECTION -->
-    <div id="modalDonation" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 id="modalDonationTitle" class="font-bold text-lg text-slate-900">Adicionar Doação</h3>
-                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <form id="formDonation" onsubmit="PortalApp.handleDonationSubmit(event)" class="space-y-4">
-                <input type="hidden" id="donationId">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
-                    <input type="number" step="0.01" min="0.01" id="donationValue" required placeholder="0.00" 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Forma de Pagamento</label>
-                    <select id="donationPayment" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
-                        <option value="PIX">PIX</option>
-                        <option value="Dinheiro">Dinheiro</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data e Hora</label>
-                    <input type="datetime-local" id="donationDateTime" required 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-sm shadow">Salvar Registro</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modalExpense" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 id="modalExpenseTitle" class="font-bold text-lg text-slate-900">Adicionar Despesa</h3>
-                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <form id="formExpense" onsubmit="PortalApp.handleExpenseSubmit(event)" class="space-y-4">
-                <input type="hidden" id="expenseId">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
-                    <input type="text" id="expenseDesc" required placeholder="Ex: Sacos de cimento, Areia, Mão de obra" 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoria</label>
-                        <select id="expenseCategory" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                            <option value="Materiais">Materiais</option>
-                            <option value="Mão de Obra">Mão de Obra</option>
-                            <option value="Equipamentos">Equipamentos</option>
-                            <option value="Serviços">Serviços</option>
-                            <option value="Outros">Outros</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Status</label>
-                        <select id="expenseStatus" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                            <option value="Pago">Pago</option>
-                            <option value="Pendente">Pendente</option>
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
-                    <input type="number" step="0.01" min="0.01" id="expenseValue" required placeholder="0.00" 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data e Hora</label>
-                    <input type="datetime-local" id="expenseDateTime" required 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Observação / Ref. Comprovante</label>
-                    <input type="text" id="expenseObs" placeholder="Ex: NF #1042 / Recibo assinado" 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-rose-700 hover:bg-rose-800 text-white rounded-xl font-bold text-sm shadow">Salvar Despesa</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modalSettings" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="font-bold text-lg text-slate-900">Configurações da Campanha</h3>
-                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <form id="formSettings" onsubmit="PortalApp.handleSettingsSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Meta Financeira (R$)</label>
-                    <input type="number" step="100" min="1" id="settingsGoal" required 
-                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none font-bold text-lg text-slate-900">
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-sm shadow">Atualizar Meta</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modalConfirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
-            <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto text-xl">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3 id="confirmTitle" class="font-bold text-lg text-slate-900">Confirmar Ação</h3>
-            <p id="confirmMessage" class="text-xs text-slate-600">Tem certeza de que deseja excluir este registro?</p>
-            <div class="flex gap-3 pt-2">
-                <button onclick="PortalApp.closeConfirmModal(false)" class="flex-1 py-2 border border-slate-300 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100">Cancelar</button>
-                <button id="btnConfirmAction" onclick="PortalApp.closeConfirmModal(true)" class="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow">Sim, Confirmar</button>
-            </div>
-        </div>
-    </div>
-
     <!-- MAIN JAVASCRIPT ARCHITECTURE -->
     <script>
         const PortalApp = (() => {
@@ -621,19 +501,18 @@
                 defaultGoalCents: 5000000,
                 csvPaths: {
                     donations: 'dados/doacoes.csv',
-                    expenses: 'dados/despesas.csv'
+                    expenses: 'dados/despesas.csv',
+                    phases: 'dados/fases.csv'
                 },
-                storageKey: 'portal_transparencia_v1_data'
+                githubReceiptsBaseUrl: 'https://github.com/eliseuangelos/portal-transparencia/tree/main/comprovantes/'
             };
 
             let state = {
                 goalCents: CONFIG.defaultGoalCents,
                 donations: [],
                 expenses: [],
-                dataSource: 'CSV',
-                adminMode: false,
-                lastFetchTime: null,
-                confirmCallback: null
+                phases: [],
+                lastFetchTime: null
             };
 
             const moneyFormatter = new Intl.NumberFormat(CONFIG.locale, {
@@ -676,8 +555,19 @@
                 }
             }
 
-            function generateId() {
-                return 'id_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            function formatDateShort(dateTimeStr) {
+                if (!dateTimeStr) return '-';
+                try {
+                    const date = new Date(dateTimeStr);
+                    if (isNaN(date.getTime())) return dateTimeStr;
+                    return date.toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+                } catch (e) {
+                    return dateTimeStr;
+                }
             }
 
             function calcularTotalDoacoes() {
@@ -742,121 +632,92 @@
 
             async function loadCSVData() {
                 try {
-                    showAlert('Carregando dados financeiros dos arquivos CSV...', 'info');
+                    showAlert('Carregando dados das tabelas via CSV...', 'info');
                     
                     const cacheBust = '?t=' + Date.now();
                     const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
                     const donationsUrl = basePath + CONFIG.csvPaths.donations + cacheBust;
                     const expensesUrl = basePath + CONFIG.csvPaths.expenses + cacheBust;
+                    const phasesUrl = basePath + CONFIG.csvPaths.phases + cacheBust;
 
-                    const [resDonations, resExpenses] = await Promise.all([
-                        fetch(donationsUrl),
-                        fetch(expensesUrl)
+                    const [resDonations, resExpenses, resPhases] = await Promise.all([
+                        fetch(donationsUrl).catch(() => null),
+                        fetch(expensesUrl).catch(() => null),
+                        fetch(phasesUrl).catch(() => null)
                     ]);
 
-                    if (!resDonations.ok) throw new Error(`Falha ao carregar doacoes.csv (HTTP ${resDonations.status})`);
-                    if (!resExpenses.ok) throw new Error(`Falha ao carregar despesas.csv (HTTP ${resExpenses.status})`);
-
-                    const textDonations = await resDonations.text();
-                    const textExpenses = await resExpenses.text();
-
-                    const parsedDonations = parseCSV(textDonations);
-                    const loadedDonations = [];
-                    if (parsedDonations.length > 1) {
-                        for (let i = 1; i < parsedDonations.length; i++) {
-                            const [valor, forma, dataHora] = parsedDonations[i];
-                            const cents = toCents(valor);
-                            if (cents > 0) {
-                                loadedDonations.push({
-                                    id: generateId(),
-                                    valueCents: cents,
-                                    paymentMethod: (forma && forma.toUpperCase() === 'DINHEIRO') ? 'Dinheiro' : 'PIX',
-                                    dateTime: dataHora || new Date().toISOString()
-                                });
+                    if (resDonations && resDonations.ok) {
+                        const textDonations = await resDonations.text();
+                        const parsedDonations = parseCSV(textDonations);
+                        const loadedDonations = [];
+                        if (parsedDonations.length > 1) {
+                            for (let i = 1; i < parsedDonations.length; i++) {
+                                const [valor, forma, dataHora, obs] = parsedDonations[i];
+                                const cents = toCents(valor);
+                                if (cents > 0) {
+                                    loadedDonations.push({
+                                        valueCents: cents,
+                                        paymentMethod: (forma && forma.toUpperCase() === 'DINHEIRO') ? 'Dinheiro' : 'PIX',
+                                        dateTime: dataHora || new Date().toISOString(),
+                                        observation: obs || ''
+                                    });
+                                }
                             }
                         }
+                        state.donations = loadedDonations;
                     }
 
-                    const parsedExpenses = parseCSV(textExpenses);
-                    const loadedExpenses = [];
-                    if (parsedExpenses.length > 1) {
-                        for (let i = 1; i < parsedExpenses.length; i++) {
-                            const [descricao, categoria, valor, status, dataHora] = parsedExpenses[i];
-                            const cents = toCents(valor);
-                            if (descricao && cents > 0) {
-                                loadedExpenses.push({
-                                    id: generateId(),
-                                    description: descricao,
-                                    category: categoria || 'Outros',
-                                    valueCents: cents,
-                                    status: (status && status.toLowerCase() === 'pendente') ? 'Pendente' : 'Pago',
-                                    dateTime: dataHora || new Date().toISOString(),
-                                    observation: ''
-                                });
+                    if (resExpenses && resExpenses.ok) {
+                        const textExpenses = await resExpenses.text();
+                        const parsedExpenses = parseCSV(textExpenses);
+                        const loadedExpenses = [];
+                        if (parsedExpenses.length > 1) {
+                            for (let i = 1; i < parsedExpenses.length; i++) {
+                                const [descricao, categoria, valor, status, dataHora, comprovante] = parsedExpenses[i];
+                                const cents = toCents(valor);
+                                if (descricao && cents > 0) {
+                                    loadedExpenses.push({
+                                        description: descricao,
+                                        category: categoria || 'Outros',
+                                        valueCents: cents,
+                                        status: (status && status.toLowerCase() === 'pendente') ? 'Pendente' : 'Pago',
+                                        dateTime: dataHora || new Date().toISOString(),
+                                        receipt: comprovante || ''
+                                    });
+                                }
                             }
                         }
+                        state.expenses = loadedExpenses;
                     }
 
-                    state.donations = loadedDonations;
-                    state.expenses = loadedExpenses;
-                    state.dataSource = 'CSV';
+                    if (resPhases && resPhases.ok) {
+                        const textPhases = await resPhases.text();
+                        const parsedPhases = parseCSV(textPhases);
+                        const loadedPhases = [];
+                        if (parsedPhases.length > 1) {
+                            for (let i = 1; i < parsedPhases.length; i++) {
+                                const [data, atividade, observacao] = parsedPhases[i];
+                                if (atividade) {
+                                    loadedPhases.push({
+                                        date: data || '',
+                                        activity: atividade,
+                                        observation: observacao || ''
+                                    });
+                                }
+                            }
+                        }
+                        state.phases = loadedPhases;
+                    }
+
                     state.lastFetchTime = new Date();
-
-                    document.getElementById('dataSourceBadge').textContent = 'GitHub CSV (`dados/`)';
-                    document.getElementById('dataSourceBadge').className = 'bg-brand-800 text-emerald-200 text-[11px] px-2 py-0.5 rounded font-mono';
                     document.getElementById('lastUpdateText').textContent = `Atualizado: ${state.lastFetchTime.toLocaleTimeString('pt-BR')}`;
-
                     showAlert('Dados sincronizados com sucesso!', 'success');
                     atualizarDashboard();
 
                 } catch (error) {
-                    console.error('Erro na importação de CSV:', error);
-                    showAlert(`Não foi possível carregar os CSVs do repositório (${error.message}). Carregando modo local.`, 'error');
-                    loadLocalStorageData();
+                    console.error('Erro na carga dos CSVs:', error);
+                    showAlert(`Erro ao atualizar dados: ${error.message}`, 'error');
                 }
-            }
-
-            function loadLocalStorageData() {
-                const raw = localStorage.getItem(CONFIG.storageKey);
-                if (raw) {
-                    try {
-                        const parsed = JSON.parse(raw);
-                        state.goalCents = parsed.goalCents || CONFIG.defaultGoalCents;
-                        state.donations = parsed.donations || [];
-                        state.expenses = parsed.expenses || [];
-                        state.dataSource = 'LOCAL';
-                        
-                        document.getElementById('dataSourceBadge').textContent = 'Armazenamento Local';
-                        document.getElementById('dataSourceBadge').className = 'bg-amber-800 text-amber-200 text-[11px] px-2 py-0.5 rounded font-mono';
-                        
-                        atualizarDashboard();
-                        return;
-                    } catch (e) {
-                        console.error('Erro ao ler localStorage', e);
-                    }
-                }
-                loadDemoData();
-            }
-
-            function saveToLocalStorage() {
-                if (state.dataSource !== 'LOCAL') return;
-                const payload = {
-                    version: 1,
-                    goalCents: state.goalCents,
-                    donations: state.donations,
-                    expenses: state.expenses,
-                    updatedAt: new Date().toISOString()
-                };
-                localStorage.setItem(CONFIG.storageKey, JSON.stringify(payload));
-            }
-
-            function loadDemoData() {
-                state.goalCents = 5000000;
-                state.donations = [];
-                state.expenses = [];
-                state.dataSource = 'LOCAL';
-                saveToLocalStorage();
-                atualizarDashboard();
             }
 
             function atualizarDashboard() {
@@ -868,34 +729,13 @@
                 const donationCount = state.donations.length;
                 const averageDonation = donationCount > 0 ? totalArrecadado / donationCount : 0;
 
-                document.getElementById('headerGoalValue').textContent = formatCurrency(state.goalCents);
-                document.getElementById('headerGoalPercent').textContent = `${percentualMeta.toFixed(2)}%`;
-                
-                document.getElementById('progressRaisedText').textContent = formatCurrency(totalArrecadado);
-                const restanteMeta = Math.max(0, state.goalCents - totalArrecadado);
-                document.getElementById('progressRemainingText').textContent = formatCurrency(restanteMeta);
-                document.getElementById('progressGoalText').textContent = formatCurrency(state.goalCents);
-
-                const barFill = document.getElementById('progressBarFill');
-                const barText = document.getElementById('progressBarText');
-                const visualWidth = Math.min(100, Math.max(0, percentualMeta));
-                barFill.style.width = `${visualWidth}%`;
-                barText.textContent = `${percentualMeta.toFixed(2)}%`;
-
-                const badgeContainer = document.getElementById('goalBadgeContainer');
-                if (percentualMeta >= 100) {
-                    badgeContainer.innerHTML = `
-                        <span class="bg-amber-100 border border-amber-300 text-amber-900 text-xs font-black px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-trophy text-gold-600"></i> META ALCANÇADA! 🎉
-                        </span>
-                    `;
-                } else {
-                    badgeContainer.innerHTML = `
-                        <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-xl">
-                            Faltam ${formatCurrency(restanteMeta)}
-                        </span>
-                    `;
-                }
+                /*
+                // Código mantido em estado dormente para quando a meta for reativada
+                const headerGoalVal = document.getElementById('headerGoalValue');
+                if (headerGoalVal) headerGoalVal.textContent = formatCurrency(state.goalCents);
+                const headerGoalPct = document.getElementById('headerGoalPercent');
+                if (headerGoalPct) headerGoalPct.textContent = `${percentualMeta.toFixed(2)}%`;
+                */
 
                 document.getElementById('kpiTotalRaised').textContent = formatCurrency(totalArrecadado);
                 document.getElementById('kpiDonationCount').textContent = `${donationCount} doações confirmadas`;
@@ -919,9 +759,6 @@
                     saldoIconBg.className = 'w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center';
                 }
 
-                document.getElementById('kpiGoalPercent').textContent = `${percentualMeta.toFixed(2)}%`;
-                document.getElementById('kpiGoalStatus').textContent = percentualMeta >= 100 ? 'Meta Superada!' : 'Em andamento';
-
                 document.getElementById('kpiPendingExpenses').textContent = formatCurrency(totalDespesasPendentes);
                 const pendingCount = state.expenses.filter(e => e.status === 'Pendente').length;
                 document.getElementById('kpiPendingExpensesCount').textContent = `${pendingCount} a confirmar`;
@@ -930,6 +767,7 @@
 
                 renderDonations();
                 renderExpenses();
+                renderPhases();
                 renderCharts();
             }
 
@@ -946,7 +784,8 @@
                     const matchesPayment = filterPayment === 'ALL' || d.paymentMethod === filterPayment;
                     const formattedVal = formatCurrency(d.valueCents).toLowerCase();
                     const formattedDate = formatDate(d.dateTime).toLowerCase();
-                    const matchesSearch = formattedVal.includes(search) || formattedDate.includes(search) || d.paymentMethod.toLowerCase().includes(search);
+                    const obs = (d.observation || '').toLowerCase();
+                    const matchesSearch = formattedVal.includes(search) || formattedDate.includes(search) || d.paymentMethod.toLowerCase().includes(search) || obs.includes(search);
                     return matchesPayment && matchesSearch;
                 });
 
@@ -983,10 +822,7 @@
                                     <span class="text-xs font-semibold text-slate-600">${pct.toFixed(2)}%</span>
                                 </div>
                             </td>
-                            <td class="py-3.5 px-6 text-right edit-col ${state.adminMode ? '' : 'hidden'} whitespace-nowrap space-x-1">
-                                <button onclick="PortalApp.openDonationModal('${d.id}')" class="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="PortalApp.deleteDonation('${d.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
+                            <td class="py-3.5 px-6 text-xs text-slate-600 font-normal">${d.observation || '—'}</td>
                         `;
                         tbody.appendChild(tr);
                     });
@@ -1011,7 +847,7 @@
                     const matchesCategory = filterCategory === 'ALL' || e.category === filterCategory;
                     const matchesStatus = filterStatus === 'ALL' || e.status === filterStatus;
                     const matchesSearch = e.description.toLowerCase().includes(search) || 
-                                          (e.observation && e.observation.toLowerCase().includes(search)) ||
+                                          (e.receipt && e.receipt.toLowerCase().includes(search)) ||
                                           formatCurrency(e.valueCents).toLowerCase().includes(search);
                     return matchesCategory && matchesStatus && matchesSearch;
                 });
@@ -1019,12 +855,27 @@
                 filtered.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 
                 if (filtered.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-xs">Nenhuma despesa encontrada.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-xs">Nenhuma despesa encontrada.</td></tr>`;
                 } else {
                     filtered.forEach(e => {
                         const tr = document.createElement('tr');
                         tr.className = 'hover:bg-slate-50/80 transition-colors';
                         const isPaid = e.status === 'Pago';
+
+                        let receiptHtml = '—';
+                        if (e.receipt) {
+                            const isUrl = e.receipt.startsWith('http://') || e.receipt.startsWith('https://');
+                            const linkUrl = isUrl ? e.receipt : (CONFIG.githubReceiptsBaseUrl + encodeURIComponent(e.receipt));
+                            
+                            receiptHtml = `
+                                <a href="${linkUrl}" target="_blank" rel="noopener noreferrer" 
+                                   class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 font-medium text-xs rounded-lg transition-colors border border-slate-200">
+                                    <i class="fa-solid fa-paperclip text-slate-500"></i>
+                                    <span>${e.receipt}</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400"></i>
+                                </a>
+                            `;
+                        }
 
                         tr.innerHTML = `
                             <td class="py-3.5 px-6 font-medium text-slate-600 whitespace-nowrap text-xs">${formatDate(e.dateTime)}</td>
@@ -1039,11 +890,7 @@
                                 </span>
                             </td>
                             <td class="py-3.5 px-6 font-extrabold ${isPaid ? 'text-rose-700' : 'text-amber-700'} whitespace-nowrap">${formatCurrency(e.valueCents)}</td>
-                            <td class="py-3.5 px-6 text-xs text-slate-500 max-w-xs truncate">${e.observation || '—'}</td>
-                            <td class="py-3.5 px-6 text-right edit-col ${state.adminMode ? '' : 'hidden'} whitespace-nowrap space-x-1">
-                                <button onclick="PortalApp.openExpenseModal('${e.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-pen"></i></button>
-                                <button onclick="PortalApp.deleteExpense('${e.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
-                            </td>
+                            <td class="py-3.5 px-6 text-xs text-slate-600 whitespace-nowrap">${receiptHtml}</td>
                         `;
                         tbody.appendChild(tr);
                     });
@@ -1052,6 +899,37 @@
                 document.getElementById('expensesCountFooter').textContent = `Exibindo ${filtered.length} de ${state.expenses.length} despesas`;
                 document.getElementById('expensesPendingFooter').textContent = formatCurrency(totalPendentes);
                 document.getElementById('expensesTotalFooter').textContent = formatCurrency(totalPagas);
+            }
+
+            function renderPhases() {
+                const tbody = document.getElementById('phasesTableBody');
+                tbody.innerHTML = '';
+
+                const search = (document.getElementById('phaseSearch').value || '').toLowerCase();
+
+                let filtered = state.phases.filter(p => {
+                    return p.activity.toLowerCase().includes(search) || 
+                           (p.observation && p.observation.toLowerCase().includes(search)) ||
+                           (p.date && p.date.toLowerCase().includes(search));
+                });
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="3" class="py-8 text-center text-slate-400 text-xs">Nenhuma etapa cadastrada no CSV.</td></tr>`;
+                } else {
+                    filtered.forEach(p => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-slate-50/80 transition-colors';
+                        
+                        tr.innerHTML = `
+                            <td class="py-3.5 px-6 font-medium text-slate-600 whitespace-nowrap text-xs">${formatDateShort(p.date)}</td>
+                            <td class="py-3.5 px-6 font-semibold text-slate-800">${p.activity}</td>
+                            <td class="py-3.5 px-6 text-xs text-slate-600">${p.observation || '—'}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                document.getElementById('phasesCountFooter').textContent = `Exibindo ${filtered.length} de ${state.phases.length} etapas registradas`;
             }
 
             function renderCharts() {
@@ -1188,198 +1066,6 @@
                 ctx.fillText(`Dinheiro: ${cashPct}%`, centerX, height - 10);
             }
 
-            function toggleAdminMode() {
-                state.adminMode = !state.adminMode;
-                const adminPanel = document.getElementById('adminPanel');
-                if (state.adminMode) {
-                    adminPanel.classList.remove('hidden');
-                    if (state.dataSource !== 'LOCAL') {
-                        state.dataSource = 'LOCAL';
-                        saveToLocalStorage();
-                        document.getElementById('dataSourceBadge').textContent = 'Edição Local Ativa';
-                        document.getElementById('dataSourceBadge').className = 'bg-amber-800 text-amber-200 text-[11px] px-2 py-0.5 rounded font-mono';
-                    }
-                } else {
-                    adminPanel.classList.add('hidden');
-                }
-                atualizarDashboard();
-            }
-
-            function openDonationModal(id = null) {
-                document.getElementById('formDonation').reset();
-                document.getElementById('donationId').value = '';
-                document.getElementById('donationDateTime').value = new Date().toISOString().slice(0, 16);
-
-                if (id) {
-                    const d = state.donations.find(item => item.id === id);
-                    if (d) {
-                        document.getElementById('donationId').value = d.id;
-                        document.getElementById('donationValue').value = (d.valueCents / 100).toFixed(2);
-                        document.getElementById('donationPayment').value = d.paymentMethod;
-                        document.getElementById('donationDateTime').value = new Date(d.dateTime).toISOString().slice(0, 16);
-                        document.getElementById('modalDonationTitle').textContent = 'Editar Doação';
-                    }
-                } else {
-                    document.getElementById('modalDonationTitle').textContent = 'Adicionar Doação';
-                }
-                document.getElementById('modalDonation').classList.remove('hidden');
-            }
-
-            function handleDonationSubmit(e) {
-                e.preventDefault();
-                const id = document.getElementById('donationId').value;
-                const val = parseFloat(document.getElementById('donationValue').value);
-                const paymentMethod = document.getElementById('donationPayment').value;
-                const dateTime = document.getElementById('donationDateTime').value;
-
-                if (isNaN(val) || val <= 0) {
-                    alert('Informe um valor de doação válido.');
-                    return;
-                }
-
-                const valueCents = Math.round(val * 100);
-
-                if (id) {
-                    const idx = state.donations.findIndex(item => item.id === id);
-                    if (idx !== -1) {
-                        state.donations[idx] = { id, valueCents, paymentMethod, dateTime };
-                    }
-                } else {
-                    state.donations.push({
-                        id: generateId(),
-                        valueCents,
-                        paymentMethod,
-                        dateTime
-                    });
-                }
-
-                saveToLocalStorage();
-                closeModals();
-                atualizarDashboard();
-                showAlert('Registro de doação salvo com sucesso!', 'success');
-            }
-
-            function deleteDonation(id) {
-                confirmAction('Excluir Doação', 'Tem certeza de que deseja excluir esta doação?', () => {
-                    state.donations = state.donations.filter(d => d.id !== id);
-                    saveToLocalStorage();
-                    atualizarDashboard();
-                    showAlert('Doação removida.', 'info');
-                });
-            }
-
-            function openExpenseModal(id = null) {
-                document.getElementById('formExpense').reset();
-                document.getElementById('expenseId').value = '';
-                document.getElementById('expenseDateTime').value = new Date().toISOString().slice(0, 16);
-
-                if (id) {
-                    const ex = state.expenses.find(item => item.id === id);
-                    if (ex) {
-                        document.getElementById('expenseId').value = ex.id;
-                        document.getElementById('expenseDesc').value = ex.description;
-                        document.getElementById('expenseCategory').value = ex.category;
-                        document.getElementById('expenseStatus').value = ex.status;
-                        document.getElementById('expenseValue').value = (ex.valueCents / 100).toFixed(2);
-                        document.getElementById('expenseDateTime').value = new Date(ex.dateTime).toISOString().slice(0, 16);
-                        document.getElementById('expenseObs').value = ex.observation || '';
-                        document.getElementById('modalExpenseTitle').textContent = 'Editar Despesa';
-                    }
-                } else {
-                    document.getElementById('modalExpenseTitle').textContent = 'Adicionar Despesa';
-                }
-                document.getElementById('modalExpense').classList.remove('hidden');
-            }
-
-            function handleExpenseSubmit(e) {
-                e.preventDefault();
-                const id = document.getElementById('expenseId').value;
-                const description = document.getElementById('expenseDesc').value.trim();
-                const category = document.getElementById('expenseCategory').value;
-                const status = document.getElementById('expenseStatus').value;
-                const val = parseFloat(document.getElementById('expenseValue').value);
-                const dateTime = document.getElementById('expenseDateTime').value;
-                const observation = document.getElementById('expenseObs').value.trim();
-
-                if (isNaN(val) || val <= 0) {
-                    alert('Informe um valor de despesa válido.');
-                    return;
-                }
-
-                const valueCents = Math.round(val * 100);
-
-                if (id) {
-                    const idx = state.expenses.findIndex(item => item.id === id);
-                    if (idx !== -1) {
-                        state.expenses[idx] = { id, description, category, status, valueCents, dateTime, observation };
-                    }
-                } else {
-                    state.expenses.push({
-                        id: generateId(),
-                        description,
-                        category,
-                        status,
-                        valueCents,
-                        dateTime,
-                        observation
-                    });
-                }
-
-                saveToLocalStorage();
-                closeModals();
-                atualizarDashboard();
-                showAlert('Registro de despesa salvo com sucesso!', 'success');
-            }
-
-            function deleteExpense(id) {
-                confirmAction('Excluir Despesa', 'Tem certeza de que deseja remover esta despesa?', () => {
-                    state.expenses = state.expenses.filter(e => e.id !== id);
-                    saveToLocalStorage();
-                    atualizarDashboard();
-                    showAlert('Despesa removida.', 'info');
-                });
-            }
-
-            function openSettingsModal() {
-                document.getElementById('settingsGoal').value = (state.goalCents / 100).toString();
-                document.getElementById('modalSettings').classList.remove('hidden');
-            }
-
-            function handleSettingsSubmit(e) {
-                e.preventDefault();
-                const goalVal = parseFloat(document.getElementById('settingsGoal').value);
-                if (isNaN(goalVal) || goalVal <= 0) {
-                    alert('A meta deve ser um valor positivo maior que zero.');
-                    return;
-                }
-                state.goalCents = Math.round(goalVal * 100);
-                saveToLocalStorage();
-                closeModals();
-                atualizarDashboard();
-                showAlert('Meta da campanha atualizada!', 'success');
-            }
-
-            function closeModals() {
-                document.getElementById('modalDonation').classList.add('hidden');
-                document.getElementById('modalExpense').classList.add('hidden');
-                document.getElementById('modalSettings').classList.add('hidden');
-            }
-
-            function confirmAction(title, message, callback) {
-                document.getElementById('confirmTitle').textContent = title;
-                document.getElementById('confirmMessage').textContent = message;
-                state.confirmCallback = callback;
-                document.getElementById('modalConfirm').classList.remove('hidden');
-            }
-
-            function closeConfirmModal(confirmed) {
-                document.getElementById('modalConfirm').classList.add('hidden');
-                if (confirmed && typeof state.confirmCallback === 'function') {
-                    state.confirmCallback();
-                }
-                state.confirmCallback = null;
-            }
-
             function downloadFile(content, fileName, mimeType) {
                 const blob = new Blob([content], { type: mimeType });
                 const url = URL.createObjectURL(blob);
@@ -1393,60 +1079,24 @@
             }
 
             function exportDonationsCSV() {
-                let csv = 'valor,forma_pagamento,data_hora\n';
+                let csv = 'valor,forma_pagamento,data_hora,observacao\n';
                 state.donations.forEach(d => {
                     const val = (d.valueCents / 100).toFixed(2);
-                    csv += `"${val}","${d.paymentMethod}","${d.dateTime}"\n`;
+                    const obs = (d.observation || '').replace(/"/g, '""');
+                    csv += `"${val}","${d.paymentMethod}","${d.dateTime}","${obs}"\n`;
                 });
                 downloadFile(csv, 'doacoes.csv', 'text/csv;charset=utf-8;');
             }
 
             function exportExpensesCSV() {
-                let csv = 'descricao,categoria,valor,status,data_hora\n';
+                let csv = 'descricao,categoria,valor,status,data_hora,comprovante\n';
                 state.expenses.forEach(e => {
                     const val = (e.valueCents / 100).toFixed(2);
                     const desc = e.description.replace(/"/g, '""');
-                    csv += `"${desc}","${e.category}","${val}","${e.status}","${e.dateTime}"\n`;
+                    const receipt = (e.receipt || '').replace(/"/g, '""');
+                    csv += `"${desc}","${e.category}","${val}","${e.status}","${e.dateTime}","${receipt}"\n`;
                 });
                 downloadFile(csv, 'despesas.csv', 'text/csv;charset=utf-8;');
-            }
-
-            function exportJSON() {
-                const payload = {
-                    version: 1,
-                    goalCents: state.goalCents,
-                    donations: state.donations,
-                    expenses: state.expenses,
-                    exportedAt: new Date().toISOString()
-                };
-                downloadFile(JSON.stringify(payload, null, 2), 'backup_portal_transparencia.json', 'application/json');
-            }
-
-            function importJSON(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    try {
-                        const parsed = JSON.parse(e.target.result);
-                        if (!parsed.donations || !parsed.expenses) {
-                            throw new Error('Formato do arquivo JSON inválido.');
-                        }
-                        confirmAction('Restaurar Backup JSON', 'Deseja substituir os dados atuais pelos dados deste arquivo?', () => {
-                            state.goalCents = parsed.goalCents || CONFIG.defaultGoalCents;
-                            state.donations = parsed.donations;
-                            state.expenses = parsed.expenses;
-                            state.dataSource = 'LOCAL';
-                            saveToLocalStorage();
-                            atualizarDashboard();
-                            showAlert('Dados restaurados com sucesso!', 'success');
-                        });
-                    } catch (err) {
-                        alert('Erro ao importar JSON: ' + err.message);
-                    }
-                };
-                reader.readAsText(file);
             }
 
             function showAlert(message, type = 'info') {
@@ -1487,23 +1137,11 @@
             return {
                 init,
                 loadCSVData,
-                toggleAdminMode,
                 renderDonations,
                 renderExpenses,
-                openDonationModal,
-                handleDonationSubmit,
-                deleteDonation,
-                openExpenseModal,
-                handleExpenseSubmit,
-                deleteExpense,
-                openSettingsModal,
-                handleSettingsSubmit,
-                closeModals,
-                closeConfirmModal,
+                renderPhases,
                 exportDonationsCSV,
                 exportExpensesCSV,
-                exportJSON,
-                importJSON,
                 hideAlert
             };
 
