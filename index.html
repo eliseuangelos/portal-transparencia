@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal da Transparência — Reconstrução da Casa da Minha Mãe</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome CDN (v6.5.1 Stable) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            800: '#166534',
+                            900: '#14532d',
+                            dark: '#0a2e18'
+                        },
+                        gold: {
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                            700: '#a16207'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #fef08a 0%, #eab308 50%, #ca8a04 100%);
+        }
+        
+        .brand-gradient {
+            background: linear-gradient(135deg, #14532d 0%, #166534 60%, #15803d 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        @keyframes progressPulse {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .animated-bar {
+            background-size: 200% 200%;
+            animation: progressPulse 4s ease infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col antialiased text-slate-800">
+
+    <!-- TOP ANNOUNCEMENT / STATUS BAR -->
+    <div id="statusBanner" class="bg-brand-dark text-slate-200 text-xs py-2 px-4 flex flex-wrap justify-between items-center border-b border-brand-800">
+        <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="font-medium">Fonte de Dados Atual:</span>
+            <span id="dataSourceBadge" class="bg-brand-800 text-emerald-200 text-[11px] px-2 py-0.5 rounded font-mono">GitHub CSV (`dados/`)</span>
+            <span id="lastUpdateText" class="text-slate-400 ml-2 border-l border-slate-700 pl-2">Última checagem: Nunca</span>
+        </div>
+        <div class="flex items-center gap-3 mt-1 sm:mt-0">
+            <button id="btnFetchCSV" onclick="PortalApp.loadCSVData()" class="hover:text-gold-400 text-xs flex items-center gap-1 transition-colors">
+                <i class="fa-solid fa-rotate"></i> Atualizar Dados CSV
+            </button>
+            <span class="text-slate-600">|</span>
+            <button id="btnToggleAdmin" onclick="PortalApp.toggleAdminMode()" class="hover:text-gold-400 text-xs flex items-center gap-1 transition-colors">
+                <i class="fa-solid fa-sliders"></i> Modo Edição Local
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header class="brand-gradient text-white shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-500/30 text-emerald-200 text-xs font-semibold uppercase tracking-wider mb-3">
+                        <i class="fa-solid fa-house-chimney-heart text-gold-400"></i> Campanha Solidária Transparente
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
+                        Portal da Transparência
+                    </h1>
+                    <p class="text-gold-400 text-lg font-medium mt-1">
+                        Transparência que constrói um lar
+                    </p>
+                    <p class="text-slate-300 text-sm max-w-2xl mt-1">
+                        Acompanhe cada doação, cada despesa e cada passo da reconstrução da casa da minha mãe com total prestação de contas.
+                    </p>
+                </div>
+                
+                <!-- Quick Summary Chip -->
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex flex-col justify-center min-w-[220px]">
+                    <span class="text-xs uppercase tracking-wider text-emerald-200 font-semibold">Meta da Campanha</span>
+                    <span id="headerGoalValue" class="text-2xl font-black text-white mt-1">R$ 0,00</span>
+                    <div class="flex items-center justify-between text-xs text-slate-200 mt-2">
+                        <span>Atingido:</span>
+                        <span id="headerGoalPercent" class="font-bold text-gold-400">0,00%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+        <!-- ADMIN CONTROLS BANNER -->
+        <div id="adminPanel" class="hidden bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-amber-200 pb-3">
+                <div class="flex items-center gap-2 text-amber-900 font-bold text-lg">
+                    <i class="fa-solid fa-user-gear text-amber-600"></i> Painel do Administrador Local (Modo Edição)
+                </div>
+                <span class="text-xs text-amber-800 bg-amber-200 px-2.5 py-1 rounded-full font-medium">
+                    Alterações salvas no navegador (localStorage)
+                </span>
+            </div>
+
+            <!-- Admin Action Tools -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <button onclick="PortalApp.openDonationModal()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
+                    <i class="fa-solid fa-plus-circle"></i> + Doação
+                </button>
+                <button onclick="PortalApp.openExpenseModal()" class="bg-slate-700 hover:bg-slate-800 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
+                    <i class="fa-solid fa-minus-circle"></i> + Despesa
+                </button>
+                <button onclick="PortalApp.openSettingsModal()" class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-4 py-2.5 rounded-xl shadow-sm text-sm flex items-center justify-center gap-2 transition-colors">
+                    <i class="fa-solid fa-gear"></i> Meta & Configurações
+                </button>
+                <div class="flex items-center gap-2">
+                    <button onclick="PortalApp.exportJSON()" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-download"></i> JSON
+                    </button>
+                    <label class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-semibold py-2.5 rounded-xl flex items-center justify-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-upload"></i> Restaurar
+                        <input type="file" id="jsonInput" accept=".json" onchange="PortalApp.importJSON(event)" class="hidden">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- NOTIFICATION ALERT BOX -->
+        <div id="alertBox" class="hidden rounded-2xl p-4 border flex items-start gap-3 shadow-sm transition-all duration-300">
+            <i id="alertIcon" class="fa-solid fa-circle-info text-xl mt-0.5"></i>
+            <div class="flex-1">
+                <h4 id="alertTitle" class="font-bold text-sm">Aviso</h4>
+                <p id="alertMessage" class="text-sm mt-0.5"></p>
+            </div>
+            <button onclick="PortalApp.hideAlert()" class="text-slate-400 hover:text-slate-600 p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- 1. CAMPAIGN PROGRESS & GOAL BAR -->
+        <section class="glass-card rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-brand-800 uppercase tracking-widest">Progresso Financeiro</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Arrecadação vs. Meta</h2>
+                </div>
+                <div id="goalBadgeContainer" class="flex items-center gap-2"></div>
+            </div>
+
+            <div class="space-y-2">
+                <div class="relative w-full h-8 bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-inner p-1">
+                    <div id="progressBarFill" 
+                         class="h-full rounded-xl brand-gradient animated-bar transition-all duration-1000 ease-out flex items-center justify-end pr-3" 
+                         style="width: 0%;">
+                        <span id="progressBarText" class="text-xs font-black text-white drop-shadow">0%</span>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center text-xs sm:text-sm font-semibold text-slate-600 px-1">
+                    <span>Arrecadado: <strong id="progressRaisedText" class="text-brand-800 font-extrabold">R$ 0,00</strong></span>
+                    <span>Restante: <strong id="progressRemainingText" class="text-slate-700">R$ 0,00</strong></span>
+                    <span>Meta: <strong id="progressGoalText" class="text-slate-900">R$ 0,00</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. FINANCIAL INDICATOR CARDS (KPIs) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            
+            <!-- KPI 1: Total Arrecadado -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">Total Arrecadado</span>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiTotalRaised" class="text-2xl font-extrabold text-slate-900">R$ 0,00</div>
+                    <span id="kpiDonationCount" class="text-xs text-slate-500 font-medium">0 doações registradas</span>
+                </div>
+            </div>
+
+            <!-- KPI 2: Despesas Pagas -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">Despesas Pagas</span>
+                    <div class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiTotalExpenses" class="text-2xl font-extrabold text-slate-900">R$ 0,00</div>
+                    <span id="kpiPaidExpensesCount" class="text-xs text-slate-500 font-medium">0 despesas quitadas</span>
+                </div>
+            </div>
+
+            <!-- KPI 3: Saldo Disponível -->
+            <div id="kpiSaldoCard" class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">Saldo Disponível</span>
+                    <div id="kpiSaldoIconBg" class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                        <i id="kpiSaldoIcon" class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiBalance" class="text-2xl font-extrabold text-slate-900">R$ 0,00</div>
+                    <span class="text-xs text-slate-500 font-medium">Arrecadado − Pagos</span>
+                </div>
+            </div>
+
+            <!-- KPI 4: % da Meta -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">% da Meta</span>
+                    <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiGoalPercent" class="text-2xl font-extrabold text-slate-900">0,00%</div>
+                    <span id="kpiGoalStatus" class="text-xs text-amber-600 font-medium">Em andamento</span>
+                </div>
+            </div>
+
+            <!-- KPI 5: Despesas Pendentes -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">Pendente/A Pagar</span>
+                    <div class="w-8 h-8 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiPendingExpenses" class="text-2xl font-extrabold text-slate-900">R$ 0,00</div>
+                    <span id="kpiPendingExpensesCount" class="text-xs text-slate-500 font-medium">0 a confirmar</span>
+                </div>
+            </div>
+
+            <!-- KPI 6: Doação Média -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold uppercase tracking-wider">Doação Média</span>
+                    <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+                <div>
+                    <div id="kpiAverageDonation" class="text-2xl font-extrabold text-slate-900">R$ 0,00</div>
+                    <span class="text-xs text-slate-500 font-medium">Por apoiador</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- 3. COMPARISON & CHARTS SECTION -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between lg:col-span-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Balanço Financeiro Comparativo</h3>
+                        <p class="text-xs text-slate-500">Comparativo visual entre Arrecadação Total e Despesas</p>
+                    </div>
+                    <span class="text-xs font-semibold bg-slate-100 text-slate-600 px-3 py-1 rounded-full">Sintético</span>
+                </div>
+                
+                <div class="relative w-full h-64 flex items-center justify-center">
+                    <canvas id="financialComparisonChart" class="w-full h-full"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-slate-900">Formas de Doação</h3>
+                    <p class="text-xs text-slate-500">Distribuição PIX vs. Dinheiro</p>
+                </div>
+                <div class="relative w-full h-64 flex items-center justify-center">
+                    <canvas id="paymentMethodsChart" class="w-full h-full"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. DONATIONS TABLE SECTION -->
+        <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <h3 class="text-xl font-bold text-slate-900">Registro de Doações Arrecadadas</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Lista pública de contribuições recebidas para a obra</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="donationSearch" placeholder="Buscar doação..." oninput="PortalApp.renderDonations()" 
+                               class="pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 w-40 sm:w-52">
+                    </div>
+
+                    <select id="donationFilterPayment" onchange="PortalApp.renderDonations()" 
+                            class="py-1.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-700">
+                        <option value="ALL">Todas as Formas</option>
+                        <option value="PIX">Apenas PIX</option>
+                        <option value="Dinheiro">Apenas Dinheiro</option>
+                    </select>
+
+                    <select id="donationSort" onchange="PortalApp.renderDonations()" 
+                            class="py-1.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-700">
+                        <option value="date-desc">Mais Recentes</option>
+                        <option value="date-asc">Mais Antigas</option>
+                        <option value="value-desc">Maior Valor</option>
+                        <option value="value-asc">Menor Valor</option>
+                    </select>
+
+                    <button onclick="PortalApp.exportDonationsCSV()" title="Exportar Tabela em CSV" 
+                            class="p-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs flex items-center gap-1 font-medium transition-colors">
+                        <i class="fa-solid fa-file-csv"></i> CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                            <th class="py-3.5 px-6">Data e Hora</th>
+                            <th class="py-3.5 px-6">Forma de Pagamento</th>
+                            <th class="py-3.5 px-6">Valor do Aporte</th>
+                            <th class="py-3.5 px-6">% sobre Arrecadação</th>
+                            <th class="py-3.5 px-6 text-right edit-col hidden">Ações Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donationsTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+                </table>
+            </div>
+
+            <div class="p-4 bg-slate-50/80 border-t border-slate-100 flex flex-wrap justify-between items-center text-xs sm:text-sm font-semibold text-slate-700 px-6">
+                <span id="donationsCountFooter">Exibindo 0 doações</span>
+                <div class="flex items-center gap-4">
+                    <span>Total Arrecadado:</span>
+                    <span id="donationsTotalFooter" class="text-lg font-extrabold text-emerald-800">R$ 0,00</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. EXPENSES TABLE SECTION -->
+        <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <h3 class="text-xl font-bold text-slate-900">Prestação de Contas — Despesas da Obra</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">Gastos com materiais de construção, mão de obra e serviços</p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                        <input type="text" id="expenseSearch" placeholder="Buscar despesa..." oninput="PortalApp.renderExpenses()" 
+                               class="pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 w-40 sm:w-52">
+                    </div>
+
+                    <select id="expenseFilterCategory" onchange="PortalApp.renderExpenses()" 
+                            class="py-1.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-slate-700">
+                        <option value="ALL">Todas Categorias</option>
+                        <option value="Materiais">Materiais</option>
+                        <option value="Mão de Obra">Mão de Obra</option>
+                        <option value="Equipamentos">Equipamentos</option>
+                        <option value="Serviços">Serviços</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+
+                    <select id="expenseFilterStatus" onchange="PortalApp.renderExpenses()" 
+                            class="py-1.5 px-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-slate-700">
+                        <option value="ALL">Todos os Status</option>
+                        <option value="Pago">Apenas Pagas</option>
+                        <option value="Pendente">Apenas Pendentes</option>
+                    </select>
+
+                    <button onclick="PortalApp.exportExpensesCSV()" title="Exportar Despesas em CSV" 
+                            class="p-2 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl text-xs flex items-center gap-1 font-medium transition-colors">
+                        <i class="fa-solid fa-file-csv"></i> CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100">
+                            <th class="py-3.5 px-6">Data/Hora</th>
+                            <th class="py-3.5 px-6">Descrição da Despesa</th>
+                            <th class="py-3.5 px-6">Categoria</th>
+                            <th class="py-3.5 px-6">Status</th>
+                            <th class="py-3.5 px-6">Valor em Reais</th>
+                            <th class="py-3.5 px-6">Comprovante/Ref.</th>
+                            <th class="py-3.5 px-6 text-right edit-col hidden">Ações Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody" class="divide-y divide-slate-100 text-sm"></tbody>
+                </table>
+            </div>
+
+            <div class="p-4 bg-slate-50/80 border-t border-slate-100 flex flex-wrap justify-between items-center text-xs sm:text-sm font-semibold text-slate-700 px-6">
+                <span id="expensesCountFooter">Exibindo 0 despesas</span>
+                <div class="flex items-center gap-6">
+                    <span>Pendentes: <strong id="expensesPendingFooter" class="text-amber-600">R$ 0,00</strong></span>
+                    <span>Total Pago: <strong id="expensesTotalFooter" class="text-lg font-extrabold text-rose-700">R$ 0,00</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRIVACY NOTICE -->
+        <section class="bg-slate-100 rounded-2xl p-6 border border-slate-200 text-xs text-slate-600 space-y-2">
+            <div class="flex items-center gap-2 text-slate-800 font-bold text-sm">
+                <i class="fa-solid fa-shield-halved text-brand-800"></i> Compromisso com a Privacidade e Transparência
+            </div>
+            <p>
+                Este portal foi desenvolvido para prestação de contas pública aos apoiadores da reconstrução. Em conformidade com as diretrizes de privacidade e proteção de dados, não exibimos nomes completos, dados bancários pessoais ou fotos de comprovantes com informações sensíveis sem expressa autorização.
+            </p>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="text-slate-300 font-medium">Portal da Transparência — Reconstrução da Casa da Minha Mãe</p>
+            <p>Desenvolvido com HTML5, CSS3, JavaScript puro e Tailwind CSS. Código aberto e auditável.</p>
+            <p class="text-slate-500">Data do Sistema: <span id="footerSystemDate">2026</span></p>
+        </div>
+    </footer>
+
+    <!-- MODALS SECTION -->
+    <div id="modalDonation" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 id="modalDonationTitle" class="font-bold text-lg text-slate-900">Adicionar Doação</h3>
+                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="formDonation" onsubmit="PortalApp.handleDonationSubmit(event)" class="space-y-4">
+                <input type="hidden" id="donationId">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
+                    <input type="number" step="0.01" min="0.01" id="donationValue" required placeholder="0.00" 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Forma de Pagamento</label>
+                    <select id="donationPayment" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
+                        <option value="PIX">PIX</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data e Hora</label>
+                    <input type="datetime-local" id="donationDateTime" required 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-sm shadow">Salvar Registro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalExpense" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 id="modalExpenseTitle" class="font-bold text-lg text-slate-900">Adicionar Despesa</h3>
+                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="formExpense" onsubmit="PortalApp.handleExpenseSubmit(event)" class="space-y-4">
+                <input type="hidden" id="expenseId">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Descrição</label>
+                    <input type="text" id="expenseDesc" required placeholder="Ex: Sacos de cimento, Areia, Mão de obra" 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoria</label>
+                        <select id="expenseCategory" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                            <option value="Materiais">Materiais</option>
+                            <option value="Mão de Obra">Mão de Obra</option>
+                            <option value="Equipamentos">Equipamentos</option>
+                            <option value="Serviços">Serviços</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Status</label>
+                        <select id="expenseStatus" required class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                            <option value="Pago">Pago</option>
+                            <option value="Pendente">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Valor (R$)</label>
+                    <input type="number" step="0.01" min="0.01" id="expenseValue" required placeholder="0.00" 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Data e Hora</label>
+                    <input type="datetime-local" id="expenseDateTime" required 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Observação / Ref. Comprovante</label>
+                    <input type="text" id="expenseObs" placeholder="Ex: NF #1042 / Recibo assinado" 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-rose-700 hover:bg-rose-800 text-white rounded-xl font-bold text-sm shadow">Salvar Despesa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalSettings" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-slate-900">Configurações da Campanha</h3>
+                <button onclick="PortalApp.closeModals()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form id="formSettings" onsubmit="PortalApp.handleSettingsSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Meta Financeira (R$)</label>
+                    <input type="number" step="100" min="1" id="settingsGoal" required 
+                           class="w-full p-2.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none font-bold text-lg text-slate-900">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="PortalApp.closeModals()" class="flex-1 py-2.5 border border-slate-300 text-slate-700 rounded-xl font-medium text-sm hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-sm shadow">Atualizar Meta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalConfirm" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+            <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirmTitle" class="font-bold text-lg text-slate-900">Confirmar Ação</h3>
+            <p id="confirmMessage" class="text-xs text-slate-600">Tem certeza de que deseja excluir este registro?</p>
+            <div class="flex gap-3 pt-2">
+                <button onclick="PortalApp.closeConfirmModal(false)" class="flex-1 py-2 border border-slate-300 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-100">Cancelar</button>
+                <button id="btnConfirmAction" onclick="PortalApp.closeConfirmModal(true)" class="flex-1 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow">Sim, Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT ARCHITECTURE -->
+    <script>
+        const PortalApp = (() => {
+
+            const CONFIG = {
+                currency: 'BRL',
+                locale: 'pt-BR',
+                defaultGoalCents: 5000000,
+                csvPaths: {
+                    donations: 'dados/doacoes.csv',
+                    expenses: 'dados/despesas.csv'
+                },
+                storageKey: 'portal_transparencia_v1_data'
+            };
+
+            let state = {
+                goalCents: CONFIG.defaultGoalCents,
+                donations: [],
+                expenses: [],
+                dataSource: 'CSV',
+                adminMode: false,
+                lastFetchTime: null,
+                confirmCallback: null
+            };
+
+            const moneyFormatter = new Intl.NumberFormat(CONFIG.locale, {
+                style: 'currency',
+                currency: CONFIG.currency
+            });
+
+            function formatCurrency(cents) {
+                if (isNaN(cents)) cents = 0;
+                return moneyFormatter.format(cents / 100);
+            }
+
+            function toCents(val) {
+                if (typeof val === 'number') return Math.round(val * 100);
+                if (!val) return 0;
+                let cleaned = val.toString().trim();
+                if (cleaned.includes(',') && cleaned.includes('.')) {
+                    cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+                } else if (cleaned.includes(',')) {
+                    cleaned = cleaned.replace(',', '.');
+                }
+                const parsed = parseFloat(cleaned);
+                return isNaN(parsed) ? 0 : Math.round(parsed * 100);
+            }
+
+            function formatDate(dateTimeStr) {
+                if (!dateTimeStr) return '-';
+                try {
+                    const date = new Date(dateTimeStr);
+                    if (isNaN(date.getTime())) return dateTimeStr;
+                    return date.toLocaleString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } catch (e) {
+                    return dateTimeStr;
+                }
+            }
+
+            function generateId() {
+                return 'id_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+            }
+
+            function calcularTotalDoacoes() {
+                return state.donations.reduce((acc, d) => acc + (d.valueCents || 0), 0);
+            }
+
+            function calcularTotalDespesas() {
+                return state.expenses
+                    .filter(e => e.status === 'Pago')
+                    .reduce((acc, e) => acc + (e.valueCents || 0), 0);
+            }
+
+            function calcularTotalDespesasPendentes() {
+                return state.expenses
+                    .filter(e => e.status === 'Pendente')
+                    .reduce((acc, e) => acc + (e.valueCents || 0), 0);
+            }
+
+            function calcularSaldo() {
+                return calcularTotalDoacoes() - calcularTotalDespesas();
+            }
+
+            function calcularPercentualMeta() {
+                const total = calcularTotalDoacoes();
+                if (state.goalCents <= 0) return 0;
+                return (total / state.goalCents) * 100;
+            }
+
+            function parseCSV(text) {
+                const lines = text.split(/\r\n|\n/);
+                const result = [];
+                if (lines.length === 0) return result;
+
+                const firstLine = lines[0];
+                const delimiter = firstLine.includes(';') ? ';' : ',';
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+
+                    let row = [];
+                    let insideQuote = false;
+                    let entry = '';
+
+                    for (let j = 0; j < line.length; j++) {
+                        const char = line[j];
+                        if (char === '"' || char === "'") {
+                            insideQuote = !insideQuote;
+                        } else if (char === delimiter && !insideQuote) {
+                            row.push(entry.trim());
+                            entry = '';
+                        } else {
+                            entry += char;
+                        }
+                    }
+                    row.push(entry.trim());
+                    row = row.map(f => f.replace(/^["']|["']$/g, ''));
+                    result.push(row);
+                }
+                return result;
+            }
+
+            async function loadCSVData() {
+                try {
+                    showAlert('Carregando dados financeiros dos arquivos CSV...', 'info');
+                    
+                    const cacheBust = '?t=' + Date.now();
+                    const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+                    const donationsUrl = basePath + CONFIG.csvPaths.donations + cacheBust;
+                    const expensesUrl = basePath + CONFIG.csvPaths.expenses + cacheBust;
+
+                    const [resDonations, resExpenses] = await Promise.all([
+                        fetch(donationsUrl),
+                        fetch(expensesUrl)
+                    ]);
+
+                    if (!resDonations.ok) throw new Error(`Falha ao carregar doacoes.csv (HTTP ${resDonations.status})`);
+                    if (!resExpenses.ok) throw new Error(`Falha ao carregar despesas.csv (HTTP ${resExpenses.status})`);
+
+                    const textDonations = await resDonations.text();
+                    const textExpenses = await resExpenses.text();
+
+                    const parsedDonations = parseCSV(textDonations);
+                    const loadedDonations = [];
+                    if (parsedDonations.length > 1) {
+                        for (let i = 1; i < parsedDonations.length; i++) {
+                            const [valor, forma, dataHora] = parsedDonations[i];
+                            const cents = toCents(valor);
+                            if (cents > 0) {
+                                loadedDonations.push({
+                                    id: generateId(),
+                                    valueCents: cents,
+                                    paymentMethod: (forma && forma.toUpperCase() === 'DINHEIRO') ? 'Dinheiro' : 'PIX',
+                                    dateTime: dataHora || new Date().toISOString()
+                                });
+                            }
+                        }
+                    }
+
+                    const parsedExpenses = parseCSV(textExpenses);
+                    const loadedExpenses = [];
+                    if (parsedExpenses.length > 1) {
+                        for (let i = 1; i < parsedExpenses.length; i++) {
+                            const [descricao, categoria, valor, status, dataHora] = parsedExpenses[i];
+                            const cents = toCents(valor);
+                            if (descricao && cents > 0) {
+                                loadedExpenses.push({
+                                    id: generateId(),
+                                    description: descricao,
+                                    category: categoria || 'Outros',
+                                    valueCents: cents,
+                                    status: (status && status.toLowerCase() === 'pendente') ? 'Pendente' : 'Pago',
+                                    dateTime: dataHora || new Date().toISOString(),
+                                    observation: ''
+                                });
+                            }
+                        }
+                    }
+
+                    state.donations = loadedDonations;
+                    state.expenses = loadedExpenses;
+                    state.dataSource = 'CSV';
+                    state.lastFetchTime = new Date();
+
+                    document.getElementById('dataSourceBadge').textContent = 'GitHub CSV (`dados/`)';
+                    document.getElementById('dataSourceBadge').className = 'bg-brand-800 text-emerald-200 text-[11px] px-2 py-0.5 rounded font-mono';
+                    document.getElementById('lastUpdateText').textContent = `Atualizado: ${state.lastFetchTime.toLocaleTimeString('pt-BR')}`;
+
+                    showAlert('Dados sincronizados com sucesso!', 'success');
+                    atualizarDashboard();
+
+                } catch (error) {
+                    console.error('Erro na importação de CSV:', error);
+                    showAlert(`Não foi possível carregar os CSVs do repositório (${error.message}). Carregando modo local.`, 'error');
+                    loadLocalStorageData();
+                }
+            }
+
+            function loadLocalStorageData() {
+                const raw = localStorage.getItem(CONFIG.storageKey);
+                if (raw) {
+                    try {
+                        const parsed = JSON.parse(raw);
+                        state.goalCents = parsed.goalCents || CONFIG.defaultGoalCents;
+                        state.donations = parsed.donations || [];
+                        state.expenses = parsed.expenses || [];
+                        state.dataSource = 'LOCAL';
+                        
+                        document.getElementById('dataSourceBadge').textContent = 'Armazenamento Local';
+                        document.getElementById('dataSourceBadge').className = 'bg-amber-800 text-amber-200 text-[11px] px-2 py-0.5 rounded font-mono';
+                        
+                        atualizarDashboard();
+                        return;
+                    } catch (e) {
+                        console.error('Erro ao ler localStorage', e);
+                    }
+                }
+                loadDemoData();
+            }
+
+            function saveToLocalStorage() {
+                if (state.dataSource !== 'LOCAL') return;
+                const payload = {
+                    version: 1,
+                    goalCents: state.goalCents,
+                    donations: state.donations,
+                    expenses: state.expenses,
+                    updatedAt: new Date().toISOString()
+                };
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(payload));
+            }
+
+            function loadDemoData() {
+                state.goalCents = 5000000;
+                state.donations = [];
+                state.expenses = [];
+                state.dataSource = 'LOCAL';
+                saveToLocalStorage();
+                atualizarDashboard();
+            }
+
+            function atualizarDashboard() {
+                const totalArrecadado = calcularTotalDoacoes();
+                const totalDespesasPagas = calcularTotalDespesas();
+                const totalDespesasPendentes = calcularTotalDespesasPendentes();
+                const saldoDisponivel = calcularSaldo();
+                const percentualMeta = calcularPercentualMeta();
+                const donationCount = state.donations.length;
+                const averageDonation = donationCount > 0 ? totalArrecadado / donationCount : 0;
+
+                document.getElementById('headerGoalValue').textContent = formatCurrency(state.goalCents);
+                document.getElementById('headerGoalPercent').textContent = `${percentualMeta.toFixed(2)}%`;
+                
+                document.getElementById('progressRaisedText').textContent = formatCurrency(totalArrecadado);
+                const restanteMeta = Math.max(0, state.goalCents - totalArrecadado);
+                document.getElementById('progressRemainingText').textContent = formatCurrency(restanteMeta);
+                document.getElementById('progressGoalText').textContent = formatCurrency(state.goalCents);
+
+                const barFill = document.getElementById('progressBarFill');
+                const barText = document.getElementById('progressBarText');
+                const visualWidth = Math.min(100, Math.max(0, percentualMeta));
+                barFill.style.width = `${visualWidth}%`;
+                barText.textContent = `${percentualMeta.toFixed(2)}%`;
+
+                const badgeContainer = document.getElementById('goalBadgeContainer');
+                if (percentualMeta >= 100) {
+                    badgeContainer.innerHTML = `
+                        <span class="bg-amber-100 border border-amber-300 text-amber-900 text-xs font-black px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-trophy text-gold-600"></i> META ALCANÇADA! 🎉
+                        </span>
+                    `;
+                } else {
+                    badgeContainer.innerHTML = `
+                        <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-xl">
+                            Faltam ${formatCurrency(restanteMeta)}
+                        </span>
+                    `;
+                }
+
+                document.getElementById('kpiTotalRaised').textContent = formatCurrency(totalArrecadado);
+                document.getElementById('kpiDonationCount').textContent = `${donationCount} doações confirmadas`;
+
+                document.getElementById('kpiTotalExpenses').textContent = formatCurrency(totalDespesasPagas);
+                const paidCount = state.expenses.filter(e => e.status === 'Pago').length;
+                document.getElementById('kpiPaidExpensesCount').textContent = `${paidCount} despesas quitadas`;
+
+                const balanceEl = document.getElementById('kpiBalance');
+                const saldoCard = document.getElementById('kpiSaldoCard');
+                const saldoIconBg = document.getElementById('kpiSaldoIconBg');
+                
+                balanceEl.textContent = formatCurrency(saldoDisponivel);
+                if (saldoDisponivel < 0) {
+                    balanceEl.className = 'text-2xl font-extrabold text-rose-600';
+                    saldoCard.className = 'bg-rose-50/70 rounded-2xl p-5 border-2 border-rose-300 shadow-sm flex flex-col justify-between';
+                    saldoIconBg.className = 'w-8 h-8 rounded-xl bg-rose-200 text-rose-700 flex items-center justify-center';
+                } else {
+                    balanceEl.className = 'text-2xl font-extrabold text-slate-900';
+                    saldoCard.className = 'bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow';
+                    saldoIconBg.className = 'w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center';
+                }
+
+                document.getElementById('kpiGoalPercent').textContent = `${percentualMeta.toFixed(2)}%`;
+                document.getElementById('kpiGoalStatus').textContent = percentualMeta >= 100 ? 'Meta Superada!' : 'Em andamento';
+
+                document.getElementById('kpiPendingExpenses').textContent = formatCurrency(totalDespesasPendentes);
+                const pendingCount = state.expenses.filter(e => e.status === 'Pendente').length;
+                document.getElementById('kpiPendingExpensesCount').textContent = `${pendingCount} a confirmar`;
+
+                document.getElementById('kpiAverageDonation').textContent = formatCurrency(averageDonation);
+
+                renderDonations();
+                renderExpenses();
+                renderCharts();
+            }
+
+            function renderDonations() {
+                const tbody = document.getElementById('donationsTableBody');
+                tbody.innerHTML = '';
+
+                const search = (document.getElementById('donationSearch').value || '').toLowerCase();
+                const filterPayment = document.getElementById('donationFilterPayment').value;
+                const sortOrder = document.getElementById('donationSort').value;
+                const totalArrecadado = calcularTotalDoacoes();
+
+                let filtered = state.donations.filter(d => {
+                    const matchesPayment = filterPayment === 'ALL' || d.paymentMethod === filterPayment;
+                    const formattedVal = formatCurrency(d.valueCents).toLowerCase();
+                    const formattedDate = formatDate(d.dateTime).toLowerCase();
+                    const matchesSearch = formattedVal.includes(search) || formattedDate.includes(search) || d.paymentMethod.toLowerCase().includes(search);
+                    return matchesPayment && matchesSearch;
+                });
+
+                filtered.sort((a, b) => {
+                    if (sortOrder === 'date-desc') return new Date(b.dateTime) - new Date(a.dateTime);
+                    if (sortOrder === 'date-asc') return new Date(a.dateTime) - new Date(b.dateTime);
+                    if (sortOrder === 'value-desc') return b.valueCents - a.valueCents;
+                    if (sortOrder === 'value-asc') return a.valueCents - b.valueCents;
+                    return 0;
+                });
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 text-xs">Nenhuma doação encontrada.</td></tr>`;
+                } else {
+                    filtered.forEach(d => {
+                        const pct = totalArrecadado > 0 ? ((d.valueCents / totalArrecadado) * 100) : 0;
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-slate-50/80 transition-colors';
+                        
+                        tr.innerHTML = `
+                            <td class="py-3.5 px-6 font-medium text-slate-700 whitespace-nowrap">${formatDate(d.dateTime)}</td>
+                            <td class="py-3.5 px-6 whitespace-nowrap">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold ${d.paymentMethod === 'PIX' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                    <i class="fa-solid ${d.paymentMethod === 'PIX' ? 'fa-bolt' : 'fa-money-bill-wave'} text-[10px]"></i>
+                                    ${d.paymentMethod}
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-6 font-extrabold text-emerald-800 whitespace-nowrap">${formatCurrency(d.valueCents)}</td>
+                            <td class="py-3.5 px-6 whitespace-nowrap">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-16 bg-slate-100 rounded-full h-2 overflow-hidden border">
+                                        <div class="bg-emerald-500 h-full rounded-full" style="width: ${Math.min(100, pct)}%"></div>
+                                    </div>
+                                    <span class="text-xs font-semibold text-slate-600">${pct.toFixed(2)}%</span>
+                                </div>
+                            </td>
+                            <td class="py-3.5 px-6 text-right edit-col ${state.adminMode ? '' : 'hidden'} whitespace-nowrap space-x-1">
+                                <button onclick="PortalApp.openDonationModal('${d.id}')" class="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="PortalApp.deleteDonation('${d.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                document.getElementById('donationsCountFooter').textContent = `Exibindo ${filtered.length} de ${state.donations.length} doações`;
+                document.getElementById('donationsTotalFooter').textContent = formatCurrency(totalArrecadado);
+            }
+
+            function renderExpenses() {
+                const tbody = document.getElementById('expensesTableBody');
+                tbody.innerHTML = '';
+
+                const search = (document.getElementById('expenseSearch').value || '').toLowerCase();
+                const filterCategory = document.getElementById('expenseFilterCategory').value;
+                const filterStatus = document.getElementById('expenseFilterStatus').value;
+
+                const totalPagas = calcularTotalDespesas();
+                const totalPendentes = calcularTotalDespesasPendentes();
+
+                let filtered = state.expenses.filter(e => {
+                    const matchesCategory = filterCategory === 'ALL' || e.category === filterCategory;
+                    const matchesStatus = filterStatus === 'ALL' || e.status === filterStatus;
+                    const matchesSearch = e.description.toLowerCase().includes(search) || 
+                                          (e.observation && e.observation.toLowerCase().includes(search)) ||
+                                          formatCurrency(e.valueCents).toLowerCase().includes(search);
+                    return matchesCategory && matchesStatus && matchesSearch;
+                });
+
+                filtered.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+                if (filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400 text-xs">Nenhuma despesa encontrada.</td></tr>`;
+                } else {
+                    filtered.forEach(e => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-slate-50/80 transition-colors';
+                        const isPaid = e.status === 'Pago';
+
+                        tr.innerHTML = `
+                            <td class="py-3.5 px-6 font-medium text-slate-600 whitespace-nowrap text-xs">${formatDate(e.dateTime)}</td>
+                            <td class="py-3.5 px-6 font-semibold text-slate-800">${e.description}</td>
+                            <td class="py-3.5 px-6 whitespace-nowrap">
+                                <span class="px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg">${e.category}</span>
+                            </td>
+                            <td class="py-3.5 px-6 whitespace-nowrap">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                    <i class="fa-solid ${isPaid ? 'fa-check' : 'fa-clock'} text-[10px]"></i>
+                                    ${e.status}
+                                </span>
+                            </td>
+                            <td class="py-3.5 px-6 font-extrabold ${isPaid ? 'text-rose-700' : 'text-amber-700'} whitespace-nowrap">${formatCurrency(e.valueCents)}</td>
+                            <td class="py-3.5 px-6 text-xs text-slate-500 max-w-xs truncate">${e.observation || '—'}</td>
+                            <td class="py-3.5 px-6 text-right edit-col ${state.adminMode ? '' : 'hidden'} whitespace-nowrap space-x-1">
+                                <button onclick="PortalApp.openExpenseModal('${e.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="PortalApp.deleteExpense('${e.id}')" class="p-1.5 text-slate-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                document.getElementById('expensesCountFooter').textContent = `Exibindo ${filtered.length} de ${state.expenses.length} despesas`;
+                document.getElementById('expensesPendingFooter').textContent = formatCurrency(totalPendentes);
+                document.getElementById('expensesTotalFooter').textContent = formatCurrency(totalPagas);
+            }
+
+            function renderCharts() {
+                renderComparisonChart();
+                renderPaymentChart();
+            }
+
+            function renderComparisonChart() {
+                const canvas = document.getElementById('financialComparisonChart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio || 300;
+                canvas.height = rect.height * window.devicePixelRatio || 150;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+                const width = rect.width;
+                const height = rect.height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const totalArrecadado = calcularTotalDoacoes() / 100;
+                const totalDespesas = calcularTotalDespesas() / 100;
+                const maxVal = Math.max(totalArrecadado, totalDespesas, 100);
+
+                const barWidth = Math.min(80, width / 4);
+                const gap = 40;
+                const startX = (width - (barWidth * 2 + gap)) / 2;
+                const paddingBottom = 40;
+                const chartHeight = height - paddingBottom - 30;
+
+                const h1 = (totalArrecadado / maxVal) * chartHeight;
+                const x1 = startX;
+                const y1 = height - paddingBottom - h1;
+
+                ctx.fillStyle = '#166534';
+                ctx.beginPath();
+                ctx.roundRect(x1, y1, barWidth, h1, [8, 8, 0, 0]);
+                ctx.fill();
+
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(moneyFormatter.format(totalArrecadado), x1 + barWidth / 2, y1 - 8);
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '500 11px Inter, sans-serif';
+                ctx.fillText('Arrecadado', x1 + barWidth / 2, height - 15);
+
+                const h2 = (totalDespesas / maxVal) * chartHeight;
+                const x2 = startX + barWidth + gap;
+                const y2 = height - paddingBottom - h2;
+
+                ctx.fillStyle = '#e11d48';
+                ctx.beginPath();
+                ctx.roundRect(x2, y2, barWidth, h2, [8, 8, 0, 0]);
+                ctx.fill();
+
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.fillText(moneyFormatter.format(totalDespesas), x2 + barWidth / 2, y2 - 8);
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '500 11px Inter, sans-serif';
+                ctx.fillText('Despesas Pagas', x2 + barWidth / 2, height - 15);
+            }
+
+            function renderPaymentChart() {
+                const canvas = document.getElementById('paymentMethodsChart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio || 200;
+                canvas.height = rect.height * window.devicePixelRatio || 200;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+                const width = rect.width;
+                const height = rect.height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                let pixCents = 0;
+                let cashCents = 0;
+
+                state.donations.forEach(d => {
+                    if (d.paymentMethod === 'PIX') pixCents += d.valueCents;
+                    else cashCents += d.valueCents;
+                });
+
+                const total = pixCents + cashCents;
+                const centerX = width / 2;
+                const centerY = height / 2 - 10;
+                const radius = Math.min(width, height) / 3;
+
+                if (total === 0) {
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '12px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Sem doações salvas', centerX, centerY);
+                    return;
+                }
+
+                const pixAngle = (pixCents / total) * Math.PI * 2;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, 0, pixAngle);
+                ctx.closePath();
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, pixAngle, Math.PI * 2);
+                ctx.closePath();
+                ctx.fillStyle = '#f59e0b';
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius * 0.55, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+
+                const pixPct = ((pixCents / total) * 100).toFixed(1);
+                const cashPct = ((cashCents / total) * 100).toFixed(1);
+
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#065f46';
+                ctx.fillText(`PIX: ${pixPct}%`, centerX, height - 25);
+                ctx.fillStyle = '#92400e';
+                ctx.fillText(`Dinheiro: ${cashPct}%`, centerX, height - 10);
+            }
+
+            function toggleAdminMode() {
+                state.adminMode = !state.adminMode;
+                const adminPanel = document.getElementById('adminPanel');
+                if (state.adminMode) {
+                    adminPanel.classList.remove('hidden');
+                    if (state.dataSource !== 'LOCAL') {
+                        state.dataSource = 'LOCAL';
+                        saveToLocalStorage();
+                        document.getElementById('dataSourceBadge').textContent = 'Edição Local Ativa';
+                        document.getElementById('dataSourceBadge').className = 'bg-amber-800 text-amber-200 text-[11px] px-2 py-0.5 rounded font-mono';
+                    }
+                } else {
+                    adminPanel.classList.add('hidden');
+                }
+                atualizarDashboard();
+            }
+
+            function openDonationModal(id = null) {
+                document.getElementById('formDonation').reset();
+                document.getElementById('donationId').value = '';
+                document.getElementById('donationDateTime').value = new Date().toISOString().slice(0, 16);
+
+                if (id) {
+                    const d = state.donations.find(item => item.id === id);
+                    if (d) {
+                        document.getElementById('donationId').value = d.id;
+                        document.getElementById('donationValue').value = (d.valueCents / 100).toFixed(2);
+                        document.getElementById('donationPayment').value = d.paymentMethod;
+                        document.getElementById('donationDateTime').value = new Date(d.dateTime).toISOString().slice(0, 16);
+                        document.getElementById('modalDonationTitle').textContent = 'Editar Doação';
+                    }
+                } else {
+                    document.getElementById('modalDonationTitle').textContent = 'Adicionar Doação';
+                }
+                document.getElementById('modalDonation').classList.remove('hidden');
+            }
+
+            function handleDonationSubmit(e) {
+                e.preventDefault();
+                const id = document.getElementById('donationId').value;
+                const val = parseFloat(document.getElementById('donationValue').value);
+                const paymentMethod = document.getElementById('donationPayment').value;
+                const dateTime = document.getElementById('donationDateTime').value;
+
+                if (isNaN(val) || val <= 0) {
+                    alert('Informe um valor de doação válido.');
+                    return;
+                }
+
+                const valueCents = Math.round(val * 100);
+
+                if (id) {
+                    const idx = state.donations.findIndex(item => item.id === id);
+                    if (idx !== -1) {
+                        state.donations[idx] = { id, valueCents, paymentMethod, dateTime };
+                    }
+                } else {
+                    state.donations.push({
+                        id: generateId(),
+                        valueCents,
+                        paymentMethod,
+                        dateTime
+                    });
+                }
+
+                saveToLocalStorage();
+                closeModals();
+                atualizarDashboard();
+                showAlert('Registro de doação salvo com sucesso!', 'success');
+            }
+
+            function deleteDonation(id) {
+                confirmAction('Excluir Doação', 'Tem certeza de que deseja excluir esta doação?', () => {
+                    state.donations = state.donations.filter(d => d.id !== id);
+                    saveToLocalStorage();
+                    atualizarDashboard();
+                    showAlert('Doação removida.', 'info');
+                });
+            }
+
+            function openExpenseModal(id = null) {
+                document.getElementById('formExpense').reset();
+                document.getElementById('expenseId').value = '';
+                document.getElementById('expenseDateTime').value = new Date().toISOString().slice(0, 16);
+
+                if (id) {
+                    const ex = state.expenses.find(item => item.id === id);
+                    if (ex) {
+                        document.getElementById('expenseId').value = ex.id;
+                        document.getElementById('expenseDesc').value = ex.description;
+                        document.getElementById('expenseCategory').value = ex.category;
+                        document.getElementById('expenseStatus').value = ex.status;
+                        document.getElementById('expenseValue').value = (ex.valueCents / 100).toFixed(2);
+                        document.getElementById('expenseDateTime').value = new Date(ex.dateTime).toISOString().slice(0, 16);
+                        document.getElementById('expenseObs').value = ex.observation || '';
+                        document.getElementById('modalExpenseTitle').textContent = 'Editar Despesa';
+                    }
+                } else {
+                    document.getElementById('modalExpenseTitle').textContent = 'Adicionar Despesa';
+                }
+                document.getElementById('modalExpense').classList.remove('hidden');
+            }
+
+            function handleExpenseSubmit(e) {
+                e.preventDefault();
+                const id = document.getElementById('expenseId').value;
+                const description = document.getElementById('expenseDesc').value.trim();
+                const category = document.getElementById('expenseCategory').value;
+                const status = document.getElementById('expenseStatus').value;
+                const val = parseFloat(document.getElementById('expenseValue').value);
+                const dateTime = document.getElementById('expenseDateTime').value;
+                const observation = document.getElementById('expenseObs').value.trim();
+
+                if (isNaN(val) || val <= 0) {
+                    alert('Informe um valor de despesa válido.');
+                    return;
+                }
+
+                const valueCents = Math.round(val * 100);
+
+                if (id) {
+                    const idx = state.expenses.findIndex(item => item.id === id);
+                    if (idx !== -1) {
+                        state.expenses[idx] = { id, description, category, status, valueCents, dateTime, observation };
+                    }
+                } else {
+                    state.expenses.push({
+                        id: generateId(),
+                        description,
+                        category,
+                        status,
+                        valueCents,
+                        dateTime,
+                        observation
+                    });
+                }
+
+                saveToLocalStorage();
+                closeModals();
+                atualizarDashboard();
+                showAlert('Registro de despesa salvo com sucesso!', 'success');
+            }
+
+            function deleteExpense(id) {
+                confirmAction('Excluir Despesa', 'Tem certeza de que deseja remover esta despesa?', () => {
+                    state.expenses = state.expenses.filter(e => e.id !== id);
+                    saveToLocalStorage();
+                    atualizarDashboard();
+                    showAlert('Despesa removida.', 'info');
+                });
+            }
+
+            function openSettingsModal() {
+                document.getElementById('settingsGoal').value = (state.goalCents / 100).toString();
+                document.getElementById('modalSettings').classList.remove('hidden');
+            }
+
+            function handleSettingsSubmit(e) {
+                e.preventDefault();
+                const goalVal = parseFloat(document.getElementById('settingsGoal').value);
+                if (isNaN(goalVal) || goalVal <= 0) {
+                    alert('A meta deve ser um valor positivo maior que zero.');
+                    return;
+                }
+                state.goalCents = Math.round(goalVal * 100);
+                saveToLocalStorage();
+                closeModals();
+                atualizarDashboard();
+                showAlert('Meta da campanha atualizada!', 'success');
+            }
+
+            function closeModals() {
+                document.getElementById('modalDonation').classList.add('hidden');
+                document.getElementById('modalExpense').classList.add('hidden');
+                document.getElementById('modalSettings').classList.add('hidden');
+            }
+
+            function confirmAction(title, message, callback) {
+                document.getElementById('confirmTitle').textContent = title;
+                document.getElementById('confirmMessage').textContent = message;
+                state.confirmCallback = callback;
+                document.getElementById('modalConfirm').classList.remove('hidden');
+            }
+
+            function closeConfirmModal(confirmed) {
+                document.getElementById('modalConfirm').classList.add('hidden');
+                if (confirmed && typeof state.confirmCallback === 'function') {
+                    state.confirmCallback();
+                }
+                state.confirmCallback = null;
+            }
+
+            function downloadFile(content, fileName, mimeType) {
+                const blob = new Blob([content], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            function exportDonationsCSV() {
+                let csv = 'valor,forma_pagamento,data_hora\n';
+                state.donations.forEach(d => {
+                    const val = (d.valueCents / 100).toFixed(2);
+                    csv += `"${val}","${d.paymentMethod}","${d.dateTime}"\n`;
+                });
+                downloadFile(csv, 'doacoes.csv', 'text/csv;charset=utf-8;');
+            }
+
+            function exportExpensesCSV() {
+                let csv = 'descricao,categoria,valor,status,data_hora\n';
+                state.expenses.forEach(e => {
+                    const val = (e.valueCents / 100).toFixed(2);
+                    const desc = e.description.replace(/"/g, '""');
+                    csv += `"${desc}","${e.category}","${val}","${e.status}","${e.dateTime}"\n`;
+                });
+                downloadFile(csv, 'despesas.csv', 'text/csv;charset=utf-8;');
+            }
+
+            function exportJSON() {
+                const payload = {
+                    version: 1,
+                    goalCents: state.goalCents,
+                    donations: state.donations,
+                    expenses: state.expenses,
+                    exportedAt: new Date().toISOString()
+                };
+                downloadFile(JSON.stringify(payload, null, 2), 'backup_portal_transparencia.json', 'application/json');
+            }
+
+            function importJSON(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const parsed = JSON.parse(e.target.result);
+                        if (!parsed.donations || !parsed.expenses) {
+                            throw new Error('Formato do arquivo JSON inválido.');
+                        }
+                        confirmAction('Restaurar Backup JSON', 'Deseja substituir os dados atuais pelos dados deste arquivo?', () => {
+                            state.goalCents = parsed.goalCents || CONFIG.defaultGoalCents;
+                            state.donations = parsed.donations;
+                            state.expenses = parsed.expenses;
+                            state.dataSource = 'LOCAL';
+                            saveToLocalStorage();
+                            atualizarDashboard();
+                            showAlert('Dados restaurados com sucesso!', 'success');
+                        });
+                    } catch (err) {
+                        alert('Erro ao importar JSON: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            function showAlert(message, type = 'info') {
+                const alertBox = document.getElementById('alertBox');
+                const alertTitle = document.getElementById('alertTitle');
+                const alertMessage = document.getElementById('alertMessage');
+                const alertIcon = document.getElementById('alertIcon');
+
+                alertMessage.textContent = message;
+
+                if (type === 'error') {
+                    alertBox.className = 'rounded-2xl p-4 border flex items-start gap-3 shadow-sm bg-rose-50 border-rose-200 text-rose-900';
+                    alertTitle.textContent = 'Aviso de Erro';
+                    alertIcon.className = 'fa-solid fa-triangle-exclamation text-xl text-rose-600 mt-0.5';
+                } else if (type === 'success') {
+                    alertBox.className = 'rounded-2xl p-4 border flex items-start gap-3 shadow-sm bg-emerald-50 border-emerald-200 text-emerald-900';
+                    alertTitle.textContent = 'Sucesso';
+                    alertIcon.className = 'fa-solid fa-circle-check text-xl text-emerald-600 mt-0.5';
+                } else {
+                    alertBox.className = 'rounded-2xl p-4 border flex items-start gap-3 shadow-sm bg-blue-50 border-blue-200 text-blue-900';
+                    alertTitle.textContent = 'Informação';
+                    alertIcon.className = 'fa-solid fa-circle-info text-xl text-blue-600 mt-0.5';
+                }
+
+                alertBox.classList.remove('hidden');
+            }
+
+            function hideAlert() {
+                document.getElementById('alertBox').classList.add('hidden');
+            }
+
+            function init() {
+                document.getElementById('footerSystemDate').textContent = new Date().getFullYear();
+                window.addEventListener('resize', () => renderCharts());
+                loadCSVData();
+            }
+
+            return {
+                init,
+                loadCSVData,
+                toggleAdminMode,
+                renderDonations,
+                renderExpenses,
+                openDonationModal,
+                handleDonationSubmit,
+                deleteDonation,
+                openExpenseModal,
+                handleExpenseSubmit,
+                deleteExpense,
+                openSettingsModal,
+                handleSettingsSubmit,
+                closeModals,
+                closeConfirmModal,
+                exportDonationsCSV,
+                exportExpensesCSV,
+                exportJSON,
+                importJSON,
+                hideAlert
+            };
+
+        })();
+
+        window.addEventListener('DOMContentLoaded', PortalApp.init);
+    </script>
+</body>
+</html>
