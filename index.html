@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal da Transparência — Reconstrução da Casa da Minha Mãe</title>
+    <title>Casa da Mãe do Eliseu — Portal da Transparência</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,16 +94,21 @@
 <body class="min-h-full flex flex-col antialiased text-slate-800">
 
     <!-- TOP ANNOUNCEMENT / STATUS BAR -->
-    <div id="statusBanner" class="bg-brand-dark text-slate-200 text-xs py-2 px-4 flex flex-wrap justify-between items-center border-b border-brand-800">
-        <div class="flex items-center gap-2">
+    <div id="statusBanner" class="bg-brand-dark text-slate-200 text-xs py-2 px-4 flex flex-wrap justify-between items-center border-b border-brand-800 gap-2">
+        <div class="flex flex-wrap items-center gap-2">
             <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span class="font-medium">Fonte de Dados Atual:</span>
             <span id="dataSourceBadge" class="bg-brand-800 text-emerald-200 text-[11px] px-2 py-0.5 rounded font-mono">GitHub CSV (`dados/`)</span>
-            <span id="lastUpdateText" class="text-slate-400 ml-2 border-l border-slate-700 pl-2">Última checagem: Nunca</span>
+            <span id="lastUpdateText" class="text-slate-300 ml-2 border-l border-slate-700 pl-2 font-medium">Este site foi atualizado pela última vez em: Carregando...</span>
         </div>
-        <div class="flex items-center gap-3 mt-1 sm:mt-0">
+        <div class="flex items-center gap-4">
+            <a href="https://wa.me/5547984951813" target="_blank" rel="noopener noreferrer" 
+               class="text-emerald-400 hover:text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-colors bg-emerald-950/80 px-2.5 py-1 rounded-lg border border-emerald-800">
+                <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
+                <span>Falar com Eliseu Fernandes Laurindo</span>
+            </a>
             <button id="btnFetchCSV" onclick="PortalApp.loadCSVData()" class="hover:text-gold-400 text-xs flex items-center gap-1 transition-colors">
-                <i class="fa-solid fa-rotate"></i> Atualizar Dados CSV
+                <i class="fa-solid fa-rotate"></i> Atualizar Dados
             </button>
         </div>
     </div>
@@ -117,27 +122,15 @@
                         <i class="fa-solid fa-house-chimney-heart text-gold-400"></i> Campanha Solidária Transparente
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                        Portal da Transparência
+                        Casa da Mãe do Eliseu
                     </h1>
                     <p class="text-gold-400 text-lg font-medium mt-1">
-                        Transparência que constrói um lar
+                        Portal da Transparência
                     </p>
                     <p class="text-slate-300 text-sm max-w-2xl mt-1">
                         Acompanhe cada doação, cada despesa e cada passo da reconstrução da casa da minha mãe com total prestação de contas.
                     </p>
                 </div>
-                
-                <!-- 
-                Quick Summary Chip (Ocultado para uso futuro)
-                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 flex flex-col justify-center min-w-[220px]">
-                    <span class="text-xs uppercase tracking-wider text-emerald-200 font-semibold">Meta da Campanha</span>
-                    <span id="headerGoalValue" class="text-2xl font-black text-white mt-1">R$ 0,00</span>
-                    <div class="flex items-center justify-between text-xs text-slate-200 mt-2">
-                        <span>Atingido:</span>
-                        <span id="headerGoalPercent" class="font-bold text-gold-400">0,00%</span>
-                    </div>
-                </div>
-                -->
             </div>
         </div>
     </header>
@@ -156,34 +149,6 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-
-        <!-- 
-        1. CAMPAIGN PROGRESS & GOAL BAR (Ocultado para uso futuro)
-        <section class="glass-card rounded-3xl p-6 sm:p-8 shadow-sm space-y-5">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <span class="text-xs font-bold text-brand-800 uppercase tracking-widest">Progresso Financeiro</span>
-                    <h2 class="text-2xl font-bold text-slate-900">Arrecadação vs. Meta</h2>
-                </div>
-                <div id="goalBadgeContainer" class="flex items-center gap-2"></div>
-            </div>
-
-            <div class="space-y-2">
-                <div class="relative w-full h-8 bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 shadow-inner p-1">
-                    <div id="progressBarFill" 
-                         class="h-full rounded-xl brand-gradient animated-bar transition-all duration-1000 ease-out flex items-center justify-end pr-3" 
-                         style="width: 0%;">
-                        <span id="progressBarText" class="text-xs font-black text-white drop-shadow">0%</span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center text-xs sm:text-sm font-semibold text-slate-600 px-1">
-                    <span>Arrecadado: <strong id="progressRaisedText" class="text-brand-800 font-extrabold">R$ 0,00</strong></span>
-                    <span>Restante: <strong id="progressRemainingText" class="text-slate-700">R$ 0,00</strong></span>
-                    <span>Meta: <strong id="progressGoalText" class="text-slate-900">R$ 0,00</strong></span>
-                </div>
-            </div>
-        </section>
-        -->
 
         <!-- 2. FINANCIAL INDICATOR CARDS (KPIs) -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
@@ -229,22 +194,6 @@
                     <span class="text-xs text-slate-500 font-medium">Arrecadado − Pagos</span>
                 </div>
             </div>
-
-            <!-- 
-            KPI 4: % da Meta (Ocultado para uso futuro)
-            <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider">% da Meta</span>
-                    <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-                        <i class="fa-solid fa-bullseye"></i>
-                    </div>
-                </div>
-                <div>
-                    <div id="kpiGoalPercent" class="text-2xl font-extrabold text-slate-900">0,00%</div>
-                    <span id="kpiGoalStatus" class="text-xs text-amber-600 font-medium">Em andamento</span>
-                </div>
-            </div>
-            -->
 
             <!-- KPI 5: Despesas Pendentes -->
             <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -485,8 +434,8 @@
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 text-xs py-8 border-t border-slate-800 mt-12">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
-            <p class="text-slate-300 font-medium">Portal da Transparência — Reconstrução da Casa da Minha Mãe</p>
-            <p>Desenvolvido com HTML5, CSS3, JavaScript puro e Tailwind CSS. Código aberto e auditável.</p>
+            <p class="text-slate-300 font-medium">Casa da Mãe do Eliseu — Portal da Transparência</p>
+            <p>Desenvolvido com HTML5, CSS3, JavaScript puro e Tailwind CSS com o auxílio do <strong>Gemini (Canvas)</strong>. Código aberto e auditável.</p>
             <p class="text-slate-500">Data do Sistema: <span id="footerSystemDate">2026</span></p>
         </div>
     </footer>
@@ -502,7 +451,8 @@
                 csvPaths: {
                     donations: 'dados/doacoes.csv',
                     expenses: 'dados/despesas.csv',
-                    phases: 'dados/fases.csv'
+                    phases: 'dados/fases.csv',
+                    lastUpdatedText: 'dados/atualizado.txt'
                 },
                 githubReceiptsBaseUrl: 'https://github.com/eliseuangelos/portal-transparencia/tree/main/comprovantes/'
             };
@@ -590,12 +540,6 @@
                 return calcularTotalDoacoes() - calcularTotalDespesas();
             }
 
-            function calcularPercentualMeta() {
-                const total = calcularTotalDoacoes();
-                if (state.goalCents <= 0) return 0;
-                return (total / state.goalCents) * 100;
-            }
-
             function parseCSV(text) {
                 const lines = text.split(/\r\n|\n/);
                 const result = [];
@@ -632,19 +576,32 @@
 
             async function loadCSVData() {
                 try {
-                    showAlert('Carregando dados das tabelas via CSV...', 'info');
+                    showAlert('Carregando dados das tabelas...', 'info');
                     
                     const cacheBust = '?t=' + Date.now();
                     const basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
                     const donationsUrl = basePath + CONFIG.csvPaths.donations + cacheBust;
                     const expensesUrl = basePath + CONFIG.csvPaths.expenses + cacheBust;
                     const phasesUrl = basePath + CONFIG.csvPaths.phases + cacheBust;
+                    const updatedTextUrl = basePath + CONFIG.csvPaths.lastUpdatedText + cacheBust;
 
-                    const [resDonations, resExpenses, resPhases] = await Promise.all([
+                    const [resDonations, resExpenses, resPhases, resUpdated] = await Promise.all([
                         fetch(donationsUrl).catch(() => null),
                         fetch(expensesUrl).catch(() => null),
-                        fetch(phasesUrl).catch(() => null)
+                        fetch(phasesUrl).catch(() => null),
+                        fetch(updatedTextUrl).catch(() => null)
                     ]);
+
+                    if (resUpdated && resUpdated.ok) {
+                        const updatedDateText = (await resUpdated.text()).trim();
+                        if (updatedDateText) {
+                            document.getElementById('lastUpdateText').textContent = `Este site foi atualizado pela última vez em: ${updatedDateText}`;
+                        } else {
+                            document.getElementById('lastUpdateText').textContent = `Este site foi atualizado pela última vez em: Não informado`;
+                        }
+                    } else {
+                        document.getElementById('lastUpdateText').textContent = `Este site foi atualizado pela última vez em: Indisponível`;
+                    }
 
                     if (resDonations && resDonations.ok) {
                         const textDonations = await resDonations.text();
@@ -710,7 +667,6 @@
                     }
 
                     state.lastFetchTime = new Date();
-                    document.getElementById('lastUpdateText').textContent = `Atualizado: ${state.lastFetchTime.toLocaleTimeString('pt-BR')}`;
                     showAlert('Dados sincronizados com sucesso!', 'success');
                     atualizarDashboard();
 
@@ -725,17 +681,8 @@
                 const totalDespesasPagas = calcularTotalDespesas();
                 const totalDespesasPendentes = calcularTotalDespesasPendentes();
                 const saldoDisponivel = calcularSaldo();
-                const percentualMeta = calcularPercentualMeta();
                 const donationCount = state.donations.length;
                 const averageDonation = donationCount > 0 ? totalArrecadado / donationCount : 0;
-
-                /*
-                // Código mantido em estado dormente para quando a meta for reativada
-                const headerGoalVal = document.getElementById('headerGoalValue');
-                if (headerGoalVal) headerGoalVal.textContent = formatCurrency(state.goalCents);
-                const headerGoalPct = document.getElementById('headerGoalPercent');
-                if (headerGoalPct) headerGoalPct.textContent = `${percentualMeta.toFixed(2)}%`;
-                */
 
                 document.getElementById('kpiTotalRaised').textContent = formatCurrency(totalArrecadado);
                 document.getElementById('kpiDonationCount').textContent = `${donationCount} doações confirmadas`;
